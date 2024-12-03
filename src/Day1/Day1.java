@@ -14,7 +14,7 @@ public class Day1{
             // Create a File object to read from "input.txt"
 
             
-            File myObj = new File("./src/Day1/input.txt");
+            File myObj = new File("./src/Day1/inpt.txt");
             Scanner myReader = new Scanner(myObj);
 
             // Read each line from the file

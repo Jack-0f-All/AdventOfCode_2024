@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Day1",
+            "request": "launch",
+            "mainClass": "Day1",
+            "projectName": "AdventOfCode_2024_2a28d55"
+        },
+        {
+            "type": "java",
+            "name": "Day2_part2",
+            "request": "launch",
+            "mainClass": "Day2.Day2_part2",
+            "projectName": "AdventOfCode_2024_2a28d55"
+        },
+        {
+            "type": "java",
             "name": "Day2",
             "request": "launch",
             "mainClass": "Day2.Day2",

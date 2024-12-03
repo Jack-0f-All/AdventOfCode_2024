@@ -48,16 +48,54 @@ public class Day2_part2 {
                 levels[i] = Integer.parseInt(stringLevels[i]);
             }
             
-            if(checkForSafeDifference(levels)){
+            if(checkForSafeDifference(levels)&&(checkIncreasing(levels) || checkDecreasing(levels))){
+                
+                    count++;
+        
+            }else{
 
-                if(checkIncreasing(levels) || checkDecreasing(levels)){
-                    //System.out.println(Arrays.toString(levels) + " is safe!");
+                if(problemDampener(levels)){
                     count++;
                 }
             }
         }
         return count;
     }
+
+
+    public static boolean problemDampener(int[] numbersArray){
+        
+        //System.out.println(Arrays.toString(numbersArray) + "failed a test. Running Problem Dampener");
+        ArrayList<Integer> numbersList = new ArrayList<>();
+        int numberOfFails = 0;
+
+        for(int num:numbersArray){
+            numbersList.add(num);
+        }
+        //System.out.println("The starting ArrayList is : " + numbersList.toString());
+        for(int i=0; i<numbersArray.length; i++){
+            numbersList.remove(i);
+
+            //System.out.println("Checking " + numbersList.toString());
+
+
+            int[] temp = new int[numbersList.size()];
+
+            for (int y = 0; y < numbersList.size(); y++) {
+                temp[y] = numbersList.get(y); 
+            }
+
+            if(checkForSafeDifference(temp)&&(checkDecreasing(temp)||checkIncreasing(temp))){
+                    return true;
+            }
+
+            numbersList.add(i,numbersArray[i]);
+        }
+        return false;
+
+    }
+
+
 
     public static boolean checkIncreasing(int[] numbers){
         for(int i=0; i<numbers.length-1; i++){
