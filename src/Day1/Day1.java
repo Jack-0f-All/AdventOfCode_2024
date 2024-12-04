@@ -13,7 +13,6 @@ public class Day1{
         try {
             // Create a File object to read from "input.txt"
 
-            
             File myObj = new File("./src/Day1/inpt.txt");
             Scanner myReader = new Scanner(myObj);
 

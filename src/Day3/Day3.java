@@ -3,7 +3,7 @@ package Day3;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day3 {
@@ -57,7 +57,9 @@ public class Day3 {
             myReader.close();
 
 
+// Seems that I was on the right track with the original idea, just wasn't executing it like I wanted.
 
+// Correct answer is 84893551
 
 
 // - Given that the input is assumed to START as good, you can basically assume it starts with a do()

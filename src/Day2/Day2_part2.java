@@ -3,7 +3,7 @@ package Day2;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day2_part2 {
@@ -67,7 +67,7 @@ public class Day2_part2 {
         
         //System.out.println(Arrays.toString(numbersArray) + "failed a test. Running Problem Dampener");
         ArrayList<Integer> numbersList = new ArrayList<>();
-        int numberOfFails = 0;
+        //int numberOfFails = 0;
 
         for(int num:numbersArray){
             numbersList.add(num);
