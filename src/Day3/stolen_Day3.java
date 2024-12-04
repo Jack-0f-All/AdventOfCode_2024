@@ -6,16 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Day3 {
+public class stolen_Day3 {
 
-    final static String DELIMITER = "don't\\(\\).*?do\\(\\)";
     public static void main(String[] args) {
         try {
             // Create a File object to read from "input.txt"
             File myObj = new File("./src/Day3/input.txt");
             Scanner myReader = new Scanner(myObj);
-
-
 
             ArrayList<int[]> allCapturedMatches = new ArrayList<>();
             ArrayList<String> matchStrings = new ArrayList<>();
@@ -34,30 +31,17 @@ public class Day3 {
 
                 for(String finalChecks:matchStrings){
                     for(int[] temp: regex.findCapturedMatches(finalChecks)){
-                        //System.out.println(Arrays.toString(temp));
                         allCapturedMatches.add(temp);
                     }
                 }
-
                 
-             
-                /* 
-                for(String sub:enabled_mul){
-
-                    for(int[] temp: regex.findCapturedMatches(sub)){
-                        //System.out.println(Arrays.toString(temp));
-                        allCapturedMatches.add(temp);
-                    }
-                }
-                    */
-                
-
                 data.close();
             }
             myReader.close();
 
 
-
+//Used this help from the reddit to solve the puzzle. It seems that I was on the right track with my original idea,
+// but my execution was not working out correctly.
 
 
 // - Given that the input is assumed to START as good, you can basically assume it starts with a do()
