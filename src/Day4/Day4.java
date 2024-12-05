@@ -18,7 +18,7 @@ public class Day4 {
             try {
                 // Create a File object to read from "input.txt"
     
-                File myObj = new File("./src/Day4/input.txt"); // correct answer is 18 instances of XMAS
+                File myObj = new File("./src/Day4/input.txt"); 
                 //File myObj = new File("./src/Day4/sampleData.txt");
     
                 Scanner myReader = new Scanner(myObj);
@@ -29,8 +29,9 @@ public class Day4 {
                 while (myReader.hasNextLine()) {
                     Scanner data = new Scanner(myReader.nextLine());  // Read the entire line
                     String line = data.nextLine();
-                    crossword[lineCount++] = line.split("");
-                    //System.out.println("Added " + (lineCount-1));
+
+                    crossword[lineCount++] = line.split(""); //Splits each line into individual characters and then loads into crossword.
+                    
                     data.close();
                 }
                 myReader.close();
@@ -40,12 +41,16 @@ public class Day4 {
                 e.printStackTrace();
             }
     
+
+            //Iterates through the matrix looking for every instance of "X" (pt.1 challenge) or "A"(pt.2 challenge) and calls the relevant method when found.
+
             for(int row=0; row<crossword.length; row++){
                 for(int col=0; col<crossword[row].length; col++){
                     if(crossword[row][col].equals("X")){
                         xmasSearch(row, col);
+                    }
+                    if(crossword[row][col].equals("A")){
                         MasXSearch(row,col);
-
                     }
                 }
             }
@@ -55,7 +60,7 @@ public class Day4 {
         }
     
     
-    public static void xmasSearch(int row, int col){
+    public static void xmasSearch(int row, int col){ //part 1
     
         
         /* */
@@ -162,8 +167,25 @@ public class Day4 {
         
 }
 
-    public static void MasXSearch(int row, int col){
-        
+    public static void MasXSearch(int row, int col){ //part2
+        String left_cross = "";
+        String right_cross = "";
+
+
+        //builds a string for each crossbar of the X. Starts at the location of the A (row, col).
+        if(row>0 && row<crossword.length-1){
+            if(col>0 && col<crossword[row].length-1){
+                left_cross += crossword[row-1][col-1] + crossword[row][col] +crossword[row+1][col+1]; //builds string from top-left to bottom-right
+                right_cross += crossword[row+1][col-1] + crossword[row][col] +crossword[row-1][col+1]; // builds string from bottom-left to top-right
+            }
+        }
+
+       
+        if(right_cross.equals("SAM") || right_cross.equals("MAS")){
+            if(left_cross.equals("SAM") || left_cross.equals("MAS")){
+                pt2_totalCount++;
+            }
+        }
 
 
 
