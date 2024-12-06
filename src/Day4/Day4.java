@@ -11,10 +11,7 @@ public class Day4 {
     static int pt1_totalCount = 0;
     static int pt2_totalCount = 0;
     public static void main(String[] args) {
-    
-    
-            
-    
+        
             try {
                 // Create a File object to read from "input.txt"
     
