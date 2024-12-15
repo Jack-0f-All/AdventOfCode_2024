@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Day13",
+            "request": "launch",
+            "mainClass": "Day13.Day13",
+            "projectName": "AdventOfCode_2024_2a28d55"
+        },
+        {
+            "type": "java",
+            "name": "Day9",
+            "request": "launch",
+            "mainClass": "Day9.Day9",
+            "projectName": "AdventOfCode_2024_2a28d55"
+        },
+        {
+            "type": "java",
+            "name": "Day10",
+            "request": "launch",
+            "mainClass": "Day10.Day10",
+            "projectName": "AdventOfCode_2024_2a28d55"
+        },
+        {
+            "type": "java",
             "name": "Day7",
             "request": "launch",
             "mainClass": "Day7.Day7",

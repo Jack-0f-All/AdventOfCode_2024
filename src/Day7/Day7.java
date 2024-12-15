@@ -2,7 +2,6 @@ package Day7;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -21,15 +20,12 @@ public class Day7 {
                 File myObj = new File("./src/Day7/stepDemo.txt");
     
                 Scanner myReader = new Scanner(myObj);
-                int countOfLinesInFile=0;
                 while(myReader.hasNextLine()) {
                     myReader.nextLine();
-                    countOfLinesInFile++;
                 }
                 myReader.close();
                 myReader = new Scanner(myObj); //resets the reader to the beginning of the file.
             
-                int lineCount = 0;
                 // Read each line from the file
                 while (myReader.hasNextLine()) {
                     String line = myReader.nextLine();
@@ -51,7 +47,6 @@ public class Day7 {
     public static long checkCalibration(String[] line){
 
         long testValue = Long.parseLong(line[0]);
-        boolean isValidCalibration = false;
         String values = line[1];
         
         String[] operators = "*".repeat(values.split(" ").length-1).split("");

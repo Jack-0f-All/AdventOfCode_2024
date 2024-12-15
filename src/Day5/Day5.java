@@ -58,7 +58,6 @@ public class Day5 {
                         String [] relevantPages = line.split(",");
                         String ruleRegex="";
                         boolean isValidLine = true;
-                        int count = 0;
                         for(String page:relevantPages){
                              
                             if(ruleSet.containsKey(page)){
@@ -72,7 +71,6 @@ public class Day5 {
 
                                 if(matcher.find()){
                                     isValidLine = false;
-                                    count++;
                                 }
                                 
                             }
