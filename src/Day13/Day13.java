@@ -107,13 +107,17 @@ public class Day13 {
 
     public static void calculateButtonPresses(){
 
+        //Credit to my sister, Tess, for helping me derive the formulas for solving this system of equations.
+        //
+        // The equations are:
+        //  targetXPos = deltaX1 * (n1) + deltaX2 * (n2)
+        //  targetYPos = deltaY1 * (n1) + deltaY2 * (n2)
+        //
+        // These are then rearranged and solved for n2 and n1.
+
         n2 = (dx1 * targetY - dy1 * targetX)/(((-dy1) * dx2) + (dy2 * dx1));
 
         n1 = (targetX - dx2 * n2)/(dx1);
-
-        //System.out.println(n1 + " " + n2);
-        //System.out.println(isPossiblePrize());
-        //System.out.println();
         
     }
 

@@ -1,7 +1,10 @@
 package Day14;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -11,10 +14,12 @@ import java.util.regex.Pattern;
 public class Day14 {
 
     static ArrayList<bathroomDrone> drones = new ArrayList<>();
-    static int totalSteps = 100;
-    static int xSize = 101;
-    static int ySize = 103;
-    static String[][] grid = new String [xSize][ySize];
+    static int totalSteps = 10000;
+    static int colSize = 101;
+    static int rowSize = 103;
+    static String[][] grid = new String [rowSize][colSize];
+    static boolean displayAxis = false;
+    static int DELAY = 0;
 
     public static void main(String[] args) {
         
@@ -40,7 +45,7 @@ public class Day14 {
                     int deltaX = Integer.parseInt(matcher.group(3));
                     int deltaY = Integer.parseInt(matcher.group(4));
 
-                    drones.add(new bathroomDrone(xPos, yPos, deltaX, deltaY, xSize, ySize));
+                    drones.add(new bathroomDrone(xPos, yPos, deltaX, deltaY, rowSize, colSize));
                 }
             }
             myReader.close();
@@ -50,11 +55,11 @@ public class Day14 {
             System.out.println("No file by that name. Check that name and/or path is correct.");
         }
 
-        // updateGrid();
-        // printGrid();
-        // stepAtATime();
-        // printGrid();
+        
         move();
+        updateGrid();
+        //treeSearch();
+ 
         System.out.println(countQuadrants());
     }
 
@@ -67,16 +72,45 @@ public class Day14 {
         }
 
     }
+
+    public static void treeSearch(){
+        int count = 1;
+        int tree = 0;
+        int lowestScore = Integer.MAX_VALUE;
+
+
+        while(count <= totalSteps){
+            stepAtATime();
+            try {
+                
+                Thread.sleep(DELAY);
+            } catch (InterruptedException e) {
+                System.out.println("The sleep was interrupted.");
+            }
+                int score = countQuadrants();
+
+                //Wrote this function to find the lowest danger score out of all the drone positions.
+                //Then, rewrote the function to print to file when danger score equals that lowest score.
+                if(score == 112847865){ 
+                    writeGridToFile(count);
+                }
+                
+                
+                count++;
+            }
+            System.out.println("Lowest score "+ lowestScore);
+
+    }
     public static void stepAtATime(){
 
-        // while(count < totalSteps){
+
             for (bathroomDrone d : drones) {
                 d.moveStep();
 
             }
 
             updateGrid();
-            //printGrid();
+
         }
 
     
@@ -99,11 +133,8 @@ public class Day14 {
 
            }
         }
-        // System.out.println(q1);
-        // System.out.println(q2);
-        // System.out.println(q3);
-        // System.out.println(q4);
-        return q1 * q2 * q3 * q4;
+
+        return q1 * q2 * q3 * q4; //returns the "safety score" for the current position of the drones.
     }
 
 
@@ -120,19 +151,15 @@ public class Day14 {
     public static void updateGrid(){
         clearGrid();
         for (bathroomDrone d : drones) {
-            int x = d.getXPos();
-            int y = d.getYPos();
-            grid[x][y] = "X";
+
+            grid[d.getRowPos()][d.getColPos()] = "#";
         }
     }
 
     public static void printGrid(){
-        int x_axis = grid.length/2;
-        int y_axis = grid[0].length/2;
-        
-        // for(String[] row : grid){
-        //     System.out.println(Arrays.toString(row));
-        // }
+        int x_axis = displayAxis ? grid.length/2 : -1;
+        int y_axis = displayAxis ? grid[0].length/2 : -1;
+
 
         for(int r = 0; r<grid.length; r++){
             for(int c = 0; c<grid[r].length; c++){
@@ -148,4 +175,33 @@ public class Day14 {
                 
         }
     }
-}
+    public static void writeGridToFile(int count){
+        String output = "";
+
+
+        for(int r = 0; r<grid.length; r++){
+            for(int c = 0; c<grid[r].length; c++){
+
+            
+                    output+= grid[r][c]+" ";
+                }
+                output+="\n";
+            }
+
+        String filePath = "./src/Day14/Trees/Tree_"+ count+".txt";
+            
+            // Create a File object
+            File file = new File(filePath);
+            
+            // Create and write to the file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write(output);
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+                
+        }
+    }
