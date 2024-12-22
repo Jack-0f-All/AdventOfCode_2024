@@ -4,10 +4,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Stack;
 import java.io.File;
 
-public class Day11 {
+public class Day11_bruteForce{
 
     static ArrayList <Long> stones = new ArrayList<>(8*75);
     static ArrayList <Long> final_stones = new ArrayList<>();

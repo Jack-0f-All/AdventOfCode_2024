@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
 
-public class Day11part2 {
+public class Day11_HashMap {
 
     static final int MAX_BLINKS = 75;
     static HashMap<Long, Long> stones = new HashMap<>();
@@ -63,7 +63,6 @@ public class Day11part2 {
         HashMap <Long, Long> tempMap = new HashMap<>();
 
         while(blinkCount < MAX_BLINKS){
-            System.out.println(stones.toString());
 
             for(Long key:stones.keySet()){
                 

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Day11_HashMap",
+            "request": "launch",
+            "mainClass": "Day11.Day11_HashMap",
+            "projectName": "AdventOfCode_2024_2a28d55"
+        },
+        {
+            "type": "java",
             "name": "Day11part2",
             "request": "launch",
             "mainClass": "Day11.Day11part2",
