@@ -2,7 +2,6 @@ package Day10;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-//import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 

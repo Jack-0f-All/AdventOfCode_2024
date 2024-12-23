@@ -3,5 +3,14 @@
         {
             "path": "."
         }
-    ]
+    ],
+    "settings": {
+        "java.project.sourcePaths": [
+            ".",
+            "src"
+        ],
+        "java.project.referencedLibraries": [
+            "lib/PrintDelay.jar"
+        ]
+    }
 }
