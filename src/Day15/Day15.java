@@ -3,6 +3,7 @@ package Day15;
 import library.PrintDelay;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -11,16 +12,19 @@ import java.util.Scanner;
 public class Day15 {
 
     static String[][] matrix;
+    static String[][] wideMatrix;
     static Queue<String> movements = new LinkedList<>();
     static int bot_Row=-1;
     static int bot_Col=-1;
+    static int count = 0;
+    static boolean SLOW_PRINT = true;
 
     public static void main(String[] args) {
             
         try {
 
-            //File file = new File("./src/Day15/input.txt");
-            File file = new File("./src/Day15/sample.txt");
+            //File file = new File("./src/Day15/input.txt"); //1533489 is to high   1487196 is to low.
+            File file = new File("./src/Day15/sample8.txt");
             Scanner myScanner = new Scanner(file);
             int lineCount = 0;
             while(myScanner.hasNextLine()){
@@ -35,6 +39,7 @@ public class Day15 {
             myScanner.close();
 
             matrix = new String[lineCount][];
+            wideMatrix = new String[lineCount][];
 
             myScanner = new Scanner(file);
             int inputLine=0;
@@ -47,6 +52,8 @@ public class Day15 {
 
                 matrix[inputLine++] = data.split(""); 
             }
+
+            createWideMatrix();
 
             while (myScanner.hasNextLine()) {
                 String data = myScanner.nextLine();
@@ -66,17 +73,22 @@ public class Day15 {
 
             
             
-            findStartPosition();
-            int loops = 2;
-            while (loops > 0) {
+            findStartPosition(wideMatrix);
+            printMatrix(wideMatrix);
+            while (!movements.isEmpty()) {
 
-                
-                checkAndMove(bot_Row, bot_Col, movements.poll());
-                //PrintDelay.printMatrixWithDelay(matrix, 500);
+                String direction = movements.poll();
+                //checkAndMove(bot_Row, bot_Col, direction);
+                checkAndMoveWide(bot_Row, bot_Col, direction);
 
-                loops--;
+                if(SLOW_PRINT){ 
+                    PrintDelay.printMatrixWithDelay(wideMatrix, 1500);
+                    System.out.println();
+                }
             }
-            printMatrix();
+            printMatrix(wideMatrix);
+            //System.out.println("\nTotal GPS score: " + calcGPS(matrix, "O") + "\n");
+            System.out.println("\nTotal GPS score: " + calcGPS(wideMatrix, "[") + "\n");
         }
     }
                 
@@ -84,6 +96,7 @@ public class Day15 {
                 
     public static boolean checkAndMove(int rowPos, int colPos, String orientation){
 
+        
         int deltaRow = 0;
         int deltaCol = 0;
         String token = matrix[rowPos][colPos];
@@ -91,11 +104,12 @@ public class Day15 {
     
             case "^" : deltaRow = -1; deltaCol =  0; break;
             case ">" : deltaRow =  0; deltaCol =  1; break;
-            case "V" : deltaRow =  1; deltaCol =  0; break;
+            case "v" : deltaRow =  1; deltaCol =  0; break;
             case "<" : deltaRow =  0; deltaCol = -1; break;
+            default : throw new IllegalArgumentException("Invalid orientatinon " + orientation);
         }
 
-        System.out.printf("Checking %s moving %s",token, orientation);
+        
         if(token.equals("#")){
             return false;
         }
@@ -105,31 +119,120 @@ public class Day15 {
 
         if(token.equals("O") || token.equals("@")){
             
-            System.out.println("Checking if can move...");
-            //if(checkAndMove(rowPos + deltaRow, colPos + deltaCol, orientation)){
-                //move(rowPos, colPos, deltaRow, deltaCol);
-                //System.out.println("Can move" + orientation);
-                //return true;
-            //}
-        }
-                
-                
+
+            if(checkAndMove(rowPos + deltaRow, colPos + deltaCol, orientation)){
+                move(rowPos, colPos, deltaRow, deltaCol);
+                return true;
+            }
+        }            
+
+
         return false;
+    }
+
+    public static boolean checkAndMoveWide(int rowPos, int colPos, String orientation){
+
+        int newRow = 0;
+        int newCol = 0;
+        
+        switch(orientation){
+    
+            case "^" : newRow = rowPos + -1; newCol =  colPos + 0; break;
+            case ">" : newRow =  rowPos + 0; newCol =  colPos + 1; break;
+            case "v" : newRow =  rowPos + 1; newCol =  colPos + 0; break;
+            case "<" : newRow =  rowPos + 0; newCol = colPos + -1; break;
+            default : throw new IllegalArgumentException("Invalid orientatinon " + orientation);
+        }
+
+        String token = wideMatrix[rowPos][colPos];
+
+        if(token.equals("#")){
+            return false;
+        }
+
+        if(token.equals(".")){
+            return true;
+        }
+
+        if(token.equals("@")){
+            if(checkAndMoveWide(newRow, newCol, orientation)){
+                moveWide(rowPos, colPos, newRow, newCol);
+                return true;
+            }
+        }
+
+        if(token.equals("[")){
+
+            if(orientation.equals("v") || orientation.equals("^")){
+
+                if(checkAndMoveWide(newRow, newCol+1, orientation)){
+                    if(checkAndMoveWide(newRow, newCol, orientation)){
+
+                        moveWide(rowPos, colPos, newRow, newCol);
+                        moveWide(rowPos, colPos + 1, newRow, newCol+1);
+                        return true;
+                    }
                     
+                }
+
+            } else{
+                if(checkAndMoveWide(newRow, newCol, orientation)){
+                    moveWide(rowPos, colPos, newRow, newCol);
+                    return true;
+                }
+            }
+        }
+
+        if(token.equals("]")){
+
+            if(orientation.equals("v") || orientation.equals("^")){
+
+                if(checkAndMoveWide(newRow, newCol-1, orientation)){
+
+                    if(checkAndMoveWide(newRow, newCol, orientation)){
+
+                        moveWide(rowPos, colPos, newRow, newCol);
+                        moveWide(rowPos, colPos - 1, newRow, newCol-1);
+                        return true;
+                    }
                     
+                }
+            } else{
+                if(checkAndMoveWide(newRow, newCol, orientation)){
+                    moveWide(rowPos, colPos, newRow, newCol);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    public static void moveWide(int rowPos, int colPos, int newRow, int newCol){
+
+        String token = wideMatrix[rowPos][colPos];
+
+        if(!token.equals("#")){
+
+            wideMatrix[rowPos][colPos] = ".";
+            wideMatrix[newRow][newCol] = token;
+        }
+
+        if(token.equals("@")){
+            bot_Row = newRow;
+            bot_Col = newCol;
+        }
+
     }
                     
     public static void move(int rowPos, int colPos, int dRow, int dCol){
-    
-        
-        String token = matrix[rowPos][colPos];
 
-        
+        String token = matrix[rowPos][colPos];
 
         if(!token.equals("#")){
 
             matrix[rowPos][colPos] = ".";
-
             matrix[rowPos+dRow][colPos+dCol] = token;
         }
 
@@ -140,11 +243,28 @@ public class Day15 {
     
     }
 
-    public static void findStartPosition(){
 
-        for(int r = 0; r<matrix.length; r++){
-            for(int c = 0; c<matrix.length; c++){
-                if(matrix[r][c].equals("@")){
+    public static long calcGPS(String[][] m, String token){
+
+        long totalGPS_score = 0;
+        for (int r = 0; r < m.length; r++) {
+            for (int c = 0; c < m[r].length; c++) {
+                if(m[r][c].equals(token)){
+                    totalGPS_score += (100 * r) + c;
+                }
+            }
+        }
+
+        return totalGPS_score;
+    }
+
+
+
+    public static void findStartPosition(String[][] m){
+
+        for(int r = 0; r<m.length; r++){
+            for(int c = 0; c<m[r].length; c++){
+                if(m[r][c].equals("@")){
                     bot_Row = r;
                     bot_Col = c;
                     return;
@@ -154,37 +274,34 @@ public class Day15 {
         }
     }
 
+    public static void createWideMatrix(){
+        
+            
+        for (int r = 0; r < matrix.length; r++) {
+            
+            ArrayList <String> wideRows = new ArrayList<>();
+            for(String s : matrix[r]){
 
+                if(s.equals("@")){
+                    wideRows.add(s);
+                    wideRows.add(".");
+                }else if(s.equals("O")){
+                    wideRows.add("[");
+                    wideRows.add("]");
+                }else{
+                    wideRows.add(s);
+                    wideRows.add(s);
+                }
+            }
 
-    public static void printMatrix(){
+            wideMatrix[r] = wideRows.toArray(new String[0]);
+        }
+    }
 
-        for (String[] row : matrix) {
+    public static void printMatrix(String[][] m){
+
+        for (String[] row : m) {
             System.out.println(Arrays.toString(row));
         }
     }
-
-
-    public static void loadObjects(){
-
-
-        for(int row=0; row < matrix.length; row++){
-
-            for(int col=0; col < matrix[row].length; col++){
-
-                switch(matrix[row][col]){
-                    
-                    
-                    case "." :
-
-                    case "#" : break;
-                    
-                    case "O" : new Box(row, col); break;
-                    
-                    case "@" : new Robot(row, col); break;
-                }
-            }
-        }
-
-    }
-
 }
