@@ -10,7 +10,7 @@ import library.PrintDelay;
 
 public class Day18 {
 
-    static final int NUMBER_OF_BYTES = 1024;
+    static final int NUMBER_OF_BYTES = 3450;
     static int shortest_Distance = Integer.MAX_VALUE;
     static int count = 0;
     static String[][] maze;
@@ -29,21 +29,26 @@ public class Day18 {
 
             initMaze(71);
             findStartEndPositions();
-            while(count < NUMBER_OF_BYTES){
+            while(myReader.hasNextLine()){
+                shortest_Distance = Integer.MAX_VALUE;
                 String[] line = myReader.nextLine().split(",");
                 maze[Integer.parseInt(line[0])][Integer.parseInt(line[1])] = "#";
-                count++;
+                numberStepsToEnd();
+                if(shortest_Distance == Integer.MAX_VALUE){
+                    System.out.println(Arrays.toString(line) + " blocked all paths");
+                    break;
+                }
             }
             myReader.close();
         } catch (FileNotFoundException e) {
            System.out.println("Cannot find that file...");
         }
             
-        //System.out.println(shortestPath(maze, startPos, endPos));
-        System.out.println("Numbering steps...");
-        numberStepsToEnd();
-        PrintDelay.printMatrixWithDelay(maze, 1);
-        System.out.println("Shortest path to finish is " + shortest_Distance);
+       
+        // System.out.println("Numbering steps...");
+        // numberStepsToEnd();
+        // PrintDelay.printMatrixWithDelay(maze, 1);
+        // System.out.println("Shortest path to finish is " + shortest_Distance);
     }
                 
                 
@@ -87,7 +92,7 @@ public static void numberStepsToEnd() {
             // If we have reached the end position, return the result
             if (x == endPos[0] && y == endPos[1]) {
                 shortest_Distance = steps;
-                printMaze();
+                //printMaze();
                 return;  // End the function early, as we found the shortest path
             }
 
