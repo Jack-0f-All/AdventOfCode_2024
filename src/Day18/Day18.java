@@ -25,7 +25,7 @@ public class Day18 {
             //File myFile = new File("./src/Day18/sample.txt");
             File myFile = new File("./src/Day18/input.txt");
 
-            Scanner myReader = new Scanner(myFile);
+            Scanner myReader = new Scanner (myFile);
 
             initMaze(71);
             findStartEndPositions();

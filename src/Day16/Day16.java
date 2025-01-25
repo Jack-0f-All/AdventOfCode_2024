@@ -70,7 +70,9 @@ public class Day16 {
     
         //scores the shortest path to the End of the maze.
         public static void recursiveMazeSearch(int row, int col, int stepsAwayFromEnd){
-            // System.out.println(scoredMaze[row][column]);
+            
+            //base case
+
             String currentValue =  scoredMaze[row][col];
             if(currentValue.equals("S")){
                 scoredMaze[row][col] = Integer.toString(stepsAwayFromEnd);
@@ -85,6 +87,11 @@ public class Day16 {
                 return;
             }
     
+        //--------------------------------------------------------------------------------------------------------
+
+
+            //recursive case
+
             scoredMaze[row][col] = Integer.toString(stepsAwayFromEnd);
     
             recursiveMazeSearch(row+1, col, stepsAwayFromEnd+1);
